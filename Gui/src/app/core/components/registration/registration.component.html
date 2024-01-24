@@ -1,0 +1,88 @@
+<!-- registration.component.html -->
+
+<h2>Registracija</h2>
+<form (ngSubmit)="onSubmit()" #registrationForm="ngForm">
+  <div>
+    <label for="username">Korisničko ime:</label>
+    <input
+      type="text"
+      id="username"
+      name="username"
+      required
+      [(ngModel)]="userDetails.username"
+      #username="ngModel"
+    />
+  </div>
+  <div>
+    <label for="password">Lozinka:</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      required
+      [(ngModel)]="userDetails.password"
+      #password="ngModel"
+    />
+  </div>
+  <div>
+    <label for="email">Email:</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      required
+      [(ngModel)]="userDetails.email"
+      #email="ngModel"
+    />
+  </div>
+  <div>
+    <label for="birthdate">Datum rođenja:</label>
+    <input
+      type="date"
+      id="birthdate"
+      name="birthdate"
+      required
+      [(ngModel)]="userDetails.birthdate"
+      #birthdate="ngModel"
+    />
+  </div>
+  <div>
+    <label for="firstName">Ime:</label>
+    <input
+      type="text"
+      id="firstName"
+      name="firstName"
+      required
+      [(ngModel)]="userDetails.firstName"
+      #firstName="ngModel"
+    />
+  </div>
+  <div>
+    <label for="lastName">Prezime:</label>
+    <input
+      type="text"
+      id="lastName"
+      name="lastName"
+      required
+      [(ngModel)]="userDetails.lastName"
+      #lastName="ngModel"
+    />
+  </div>
+  <div>
+    <label for="role">Rola:</label>
+    <select id="role" name="role" [(ngModel)]="userDetails.role" required>
+      <option value="" disabled selected>Izaberite ulogu</option>
+      <option value="ROLE_CLIENT">Client</option>
+      <option value="ROLE_MANAGER">Manager</option>
+    </select>
+  </div>
+  <div>
+    <input
+      type="submit"
+      value="Registruj se"
+      [disabled]="registrationForm.invalid"
+    />
+  </div>
+</form>
+<p>Imate postojeci nalog</p>
+<button [routerLink]="['/login']">Login</button>

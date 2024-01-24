@@ -1,0 +1,28 @@
+<h2>Prijava</h2>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="email">Email:</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      required
+      formControlName="email"
+    />
+  </div>
+  <div>
+    <label for="password">Lozinka:</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      required
+      formControlName="password"
+    />
+  </div>
+  <div>
+    <input type="submit" value="Prijavi se" [disabled]="loginForm.invalid" />
+  </div>
+</form>
+<p>Registruj se</p>
+<button [routerLink]="['/registration']">Register</button>

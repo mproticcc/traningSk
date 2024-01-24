@@ -1,0 +1,166 @@
+<p>admin works!</p>
+<button [routerLink]="['/login']">logout</button>
+<hr />
+<h1>Tabela sa korisnicima</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Ime</th>
+      <th>Prezime</th>
+      <th>Korisnicko Ime</th>
+      <th>Email</th>
+      <th>Datum rodjenja</th>
+      <th>Clanska karta</th>
+      <th>Zakazani trenizi</th>
+      <th>Menadzer</th>
+      <th>Rola</th>
+      <th>Banovan</th>
+      <th>Banuj</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let client of clients">
+      <td>{{ client.firstName }}</td>
+      <td>{{ client.lastName }}</td>
+      <td>{{ client.username }}</td>
+      <td>{{ client.email }}</td>
+      <td>{{ client.datumRodjenja }}</td>
+      <td>{{ client.brojClanskeKartice }}</td>
+      <td>{{ client.brojZakazanihTreninga }}</td>
+      <td>{{ client.manager.firstName }}</td>
+      <td>{{ client.role.name }}</td>
+      <td>{{ client.isBanovan }}</td>
+      <td *ngIf="!client.isBanovan">
+        <button (click)="banUser(client)">Banuj</button>
+      </td>
+      <td *ngIf="client.isBanovan">
+        <button (click)="banUser(client)">Odbanuj</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<hr />
+<h1>Tabela sa menadzerima</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Ime</th>
+      <th>Prezime</th>
+      <th>Korisnicko Ime</th>
+      <th>Email</th>
+      <th>Datum rodjenja</th>
+      <th>Fiskulturna sala</th>
+      <th>Datum zaposljavanja</th>
+      <th>Rola</th>
+      <th>Banovan</th>
+      <th>Banuj</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let manager of managers">
+      <td>{{ manager.firstName }}</td>
+      <td>{{ manager.lastName }}</td>
+      <td>{{ manager.username }}</td>
+      <td>{{ manager.email }}</td>
+      <td>{{ manager.datumRodjenja }}</td>
+      <td>{{ manager.nazivFisSale }}</td>
+      <td>{{ manager.datumZaposljavanja }}</td>
+      <td>{{ manager.role.name }}</td>
+      <td>{{ manager.banovan }}</td>
+      <td *ngIf="!manager.banovan">
+        <button (click)="banManager(manager)">Banuj</button>
+      </td>
+      <td *ngIf="manager.banovan">
+        <button (click)="banManager(manager)">Odbanuj</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<hr />
+<h1>Svi tipovi notifikacija</h1>
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>Naziv</th>
+      <th>Obrisi</th>
+      <th>Izmeni</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let tip of tipNotifikacija">
+      <td>{{ tip.id }}</td>
+      <td>
+        <input
+          type="text"
+          [value]="tip.naziv"
+          [(ngModel)]="tip.naziv"
+          #tip.naziv="ngModel"
+        />
+      </td>
+      <td><button (click)="obrisiTip(tip)">Obrisi</button></td>
+      <td><button (click)="izmeniTip(tip)">Izmeni</button></td>
+    </tr>
+  </tbody>
+</table>
+<hr />
+<h1>Sve Notifikacije</h1>
+<h3>Filtriraj notifikacije</h3>
+<input
+  type="text"
+  #filterInput
+  (input)="onInputChange(filterInput.value)"
+  placeholder="Unesite vrednost za filtriranje"
+/>
+
+<h3>Filtriaj po vremenskom opsegu</h3>
+<div>
+  <label for="minTime">Minimalno vreme:</label>
+  <input
+    type="datetime-local"
+    id="minTime"
+    #minVal
+    (change)="onMinTimeChange(minVal.value)"
+  />
+</div>
+
+<div>
+  <label for="maxTime">Maksimalno vreme:</label>
+  <input
+    type="datetime-local"
+    id="maxTime"
+    #maxVal
+    (change)="onMaxTimeChange(maxVal.value)"
+  />
+</div>
+<button (click)="onResetTable()">Resetuj tabelu</button>
+<br />
+<br />
+<table>
+  <tbody>
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>Tip notifikacije</th>
+        <th>Text Notifikacije</th>
+        <th>Datum slanja</th>
+        <th>Link</th>
+        <th>Email_Klijenta</th>
+        <th>Email_Mnagera</th>
+      </tr>
+    </thead>
+    <div *ngFor="let not of sveNotifikacije">
+      <div *ngFor="let clinet of clients">
+        <div *ngIf="not.clinetID == clinet.id">
+          <td>{{ not.id }}</td>
+          <td>{{ not.tipNotifikacije.naziv }}</td>
+          <td>{{ not.tekst }}</td>
+          <td>{{ not.vremeSlanja }}</td>
+          <td>{{ not.link }}</td>
+          <td>{{ clinet.email }}</td>
+          <td>{{ clinet.manager.email }}</td>
+        </div>
+      </div>
+    </div>
+  </tbody>
+</table>

@@ -1,0 +1,229 @@
+<p>manager works!</p>
+<button [routerLink]="['/login']">logout</button>
+<!--zakazivanje i otkazivanje treninga, Pogodnosti za verne klijente ,filtriranje termina -->
+<h1>Informacije o Menazeru</h1>
+<form #userForm="ngForm">
+  <div>
+    <label for="username">Korisničko ime:</label>
+    <input
+      type="text"
+      id="username"
+      name="username"
+      required
+      [(ngModel)]="user.username"
+      #username="ngModel"
+    />
+  </div>
+  <div>
+    <label for="password">Lozinka:</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      required
+      [(ngModel)]="user.password"
+      #password="ngModel"
+    />
+  </div>
+  <div>
+    <label for="email">Email:</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      required
+      [(ngModel)]="user.email"
+      #email="ngModel"
+    />
+  </div>
+  <div>
+    <label for="datumRodjenja">Datum rođenja:</label>
+    <input
+      type="date"
+      id="datumRodjenja"
+      name="datumRodjenja"
+      required
+      [(ngModel)]="user.datumRodjenja"
+      #datumRodjenja="ngModel"
+    />
+  </div>
+  <div>
+    <label for="firstName">Ime:</label>
+    <input
+      type="text"
+      id="firstName"
+      name="firstName"
+      required
+      [(ngModel)]="user.firstName"
+      #firstName="ngModel"
+    />
+  </div>
+  <div>
+    <label for="lastName">Prezime:</label>
+    <input
+      type="text"
+      id="lastName"
+      name="lastName"
+      required
+      [(ngModel)]="user.lastName"
+      #lastName="ngModel"
+    />
+  </div>
+  <div>
+    <button
+      type="submit"
+      [disabled]="userForm.invalid"
+      (click)="changeMangerData(userForm.value)"
+    >
+      Sacuvaj
+    </button>
+  </div>
+</form>
+<hr />
+<h1>Sve Notifikacije menadzera</h1>
+<h3>Filtriraj notifikacije</h3>
+<input
+  type="text"
+  #filterInput
+  (input)="onInputChange(filterInput.value)"
+  placeholder="Unesite vrednost za filtriranje"
+/>
+
+<h3>Filtriaj po vremenskom opsegu</h3>
+<div>
+  <label for="minTime">Minimalno vreme:</label>
+  <input
+    type="datetime-local"
+    id="minTime"
+    #minVal
+    (change)="onMinTimeChange(minVal.value)"
+  />
+</div>
+
+<div>
+  <label for="maxTime">Maksimalno vreme:</label>
+  <input
+    type="datetime-local"
+    id="maxTime"
+    #maxVal
+    (change)="onMaxTimeChange(maxVal.value)"
+  />
+</div>
+<button (click)="onResetTable()">Resetuj tabelu</button>
+<table>
+  <tbody>
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>Tip notifikacije</th>
+        <th>Text Notifikacije</th>
+        <th>Datum slanja</th>
+        <th>Link</th>
+      </tr>
+    </thead>
+  </tbody>
+
+  <tbody>
+    <tr *ngFor="let not of sveNotifikacije">
+      <div *ngIf="not.clinetID == user.id">
+        <td>{{ not.id }}</td>
+        <td>{{ not.tipNotifikacije.naziv }}</td>
+        <td>{{ not.tekst }}</td>
+        <td>{{ not.vremeSlanja }}</td>
+        <td>{{ not.link }}</td>
+      </div>
+    </tr>
+  </tbody>
+</table>
+<hr />
+<h1>Trenizni za Menadzera</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Naziv sale</th>
+      <th>Broj rezervacije</th>
+      <th>Termin Treninga</th>
+      <th>Pocetak Termina</th>
+      <th>Kraj Termina</th>
+      <th>Tip treninga</th>
+      <th>Otkazi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let trening of trenizni">
+      <td>{{ trening.sala.naziv }}</td>
+      <td>{{ trening.brRezervacija }}</td>
+      <td>{{ trening.terminTreninga }}</td>
+      <td>{{ trening.pocetakTermina }}</td>
+      <td>{{ trening.krajTermina }}</td>
+      <td>{{ trening.tip.nazivTipa }}</td>
+      <td><button (click)="onOtkaziTrening(trening)">Otkazi</button></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+<h1>Kreiraj Trening</h1>
+
+<hr />
+<h1>Podaci o fiskulturnoj sali</h1>
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>Naziv</th>
+      <th>Kapacitet</th>
+      <th>Opis</th>
+      <th>Broj Trenera</th>
+      <th>Loyalty</th>
+      <th>Izmeni</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let sal of sveSale">
+      <td>{{ sal.id }}</td>
+      <td>
+        <input
+          type="text"
+          [value]="sal.naziv"
+          [(ngModel)]="sal.naziv"
+          #sal.naziv="ngModel"
+        />
+      </td>
+      <td>
+        <input
+          type="text"
+          [value]="sal.kapacitet"
+          [(ngModel)]="sal.kapacitet"
+          #sal.kapacitet="ngModel"
+        />
+      </td>
+      <td>
+        <input
+          type="text"
+          [value]="sal.opis"
+          [(ngModel)]="sal.opis"
+          #sal.opis="ngModel"
+        />
+      </td>
+      <td>
+        <input
+          type="text"
+          [value]="sal.brojTrenera"
+          [(ngModel)]="sal.brojTrenera"
+          #sal.brojTrenera="ngModel"
+        />
+      </td>
+      <td>
+        <input
+          type="text"
+          [value]="sal.loyalty"
+          [(ngModel)]="sal.loyalty"
+          #sal.loyalty="ngModel"
+        />
+      </td>
+      <td><button (click)="izmeni(sal)">Izmeni</button></td>
+    </tr>
+  </tbody>
+</table>
+<hr />
